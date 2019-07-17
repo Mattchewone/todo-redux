@@ -23,6 +23,7 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
+    "redux-loop": "^5.0.0",
     "reselect": "^4.0.0"
   },
   "devDependencies": {

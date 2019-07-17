@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import { loop, Cmd, combineReducers } from 'redux-loop'
 import {
   ADD_TODO,
   TOGGLE_TODO,
@@ -7,16 +7,37 @@ import {
 } from './actions'
 const { SHOW_ALL } = VisibilityFilters
 
+function addTodo (text) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        text,
+        completed: false
+      })
+    }, 800)
+  })
+}
+
+function todoSuccess (todo) {
+  return {
+    type: 'TODO_SUCCESS',
+    todo
+  }
+}
+
+function todoFailure () {}
+
 function todos (state = [], action) {
   switch (action.type) {
     case ADD_TODO:
-      return [
-        ...state,
-        {
-          text: action.text,
-          completed: false
-        }
-      ]
+      return loop(
+        [...state],
+        Cmd.run(addTodo, {
+          successActionCreator: todoSuccess,
+          failActionCreator: todoFailure,
+          args: [action.text]
+        })
+      )
     case TOGGLE_TODO:
       return state.map((todo, index) => {
         if (index === action.index) {
@@ -26,6 +47,8 @@ function todos (state = [], action) {
         }
         return todo
       })
+    case 'TODO_SUCCESS':
+      return [...state, {...action.todo }]
     default:
       return state
   }
