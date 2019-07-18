@@ -77,3 +77,16 @@ test('Can filter todos', async t => {
   await t.click(ReactSelector('Link').withText('Completed'))
   await t.expect(todos.count).eql(1)
 })
+
+test('Shows loading state', async t => {
+  const form = ReactSelector('AddTodo').find('input')
+  await t
+    .typeText(form, 'Shopping')
+    .expect(form.value).eql('Shopping')
+
+  const btn = ReactSelector('AddTodo').find('button')
+  await t.click(btn)
+  
+  // The assertion
+  await t.expect(btn.hasAttribute('disabled')).ok()
+})
