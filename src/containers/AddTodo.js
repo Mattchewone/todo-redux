@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addTodo } from '../actions'
 
-let AddTodo = ({ dispatch }) => {
+let AddTodo = ({ dispatch, loading }) => {
   let input
 
   return (
@@ -22,7 +22,7 @@ let AddTodo = ({ dispatch }) => {
             input = node
           }}
         />
-        <button type="submit">Add Todo</button>
+        <button type="submit" disabled={loading}>{loading ? 'Adding...' : 'Add Todo'}</button>
       </form>
     </div>
   )

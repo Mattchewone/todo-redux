@@ -4,7 +4,9 @@
 
 export const ADD_TODO = 'ADD_TODO'
 export const TOGGLE_TODO = 'TOGGLE_TODO'
+export const TODO_ADDED = 'TODO_ADDED'
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
+export const TOGGLE_LOADING = 'TOGGLE_LOADING'
 
 /*
  * other constants
