@@ -1,4 +1,5 @@
 import { loop, Cmd, combineReducers } from 'redux-loop'
+import { List, Map } from 'immutable'
 import {
   ADD_TODO,
   TOGGLE_TODO,
@@ -36,11 +37,11 @@ function loading (state = false, action) {
   }
 }
 
-function todos (state = [], action) {
+function todos (state = List(), action) {
   switch (action.type) {
     case ADD_TODO:
       return loop(
-        [...state],
+        state,
         Cmd.list([
           Cmd.action({
             type: TOGGLE_LOADING
@@ -54,15 +55,13 @@ function todos (state = [], action) {
     case TOGGLE_TODO:
       return state.map((todo, index) => {
         if (index === action.index) {
-          return Object.assign({}, todo, {
-            completed: !todo.completed
-          })
+          return todo.set('completed', !todo.get('completed'))
         }
         return todo
       })
     case TODO_ADDED:
       return loop(
-        [...state, {...action.todo }],
+        state.push(Map({...action.todo })),
         Cmd.action({
           type: TOGGLE_LOADING
         })
