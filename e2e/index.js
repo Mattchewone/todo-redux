@@ -16,12 +16,12 @@ test('Loads no initial todos', async t => {
 })
 
 test('Can add a todo', async t => {
-  const form = ReactSelector('AddTodo').find('input')
+  const form = ReactSelector('AddTextForm').find('input')
   await t
     .typeText(form, 'Shopping')
     .expect(form.value).eql('Shopping')
 
-  await t.click(ReactSelector('AddTodo').find('button'))
+  await t.click(ReactSelector('AddTextForm').find('button'))
   const todo = ReactSelector('Todo')
   
   // The assertion
@@ -29,12 +29,12 @@ test('Can add a todo', async t => {
 })
 
 test('Can complete a todo', async t => {
-  const form = ReactSelector('AddTodo').find('input')
+  const form = ReactSelector('AddTextForm').find('input')
   await t
     .typeText(form, 'Clean car')
     .expect(form.value).eql('Clean car')
 
-  await t.click(ReactSelector('AddTodo').find('button'))
+  await t.click(ReactSelector('AddTextForm').find('button'))
   const todo = await t.click(ReactSelector('Todo'))
 
   const completedTodo = ReactSelector('Todo').withProps({
@@ -46,12 +46,12 @@ test('Can complete a todo', async t => {
 })
 
 test('Can filter todos', async t => {
-  const form = ReactSelector('AddTodo').find('input')
+  const form = ReactSelector('AddTextForm').find('input')
   await t
     .typeText(form, 'Buy soap')
     .expect(form.value).eql('Buy soap')
 
-  await t.click(ReactSelector('AddTodo').find('button'))
+  await t.click(ReactSelector('AddTextForm').find('button'))
   const todo = await t.click(ReactSelector('Todo'))
 
   const completedTodo = ReactSelector('Todo').withProps({
@@ -63,7 +63,7 @@ test('Can filter todos', async t => {
   await t
     .typeText(form, 'Use soap')
     .expect(form.value).eql('Use soap')
-  await t.click(ReactSelector('AddTodo').find('button'))
+  await t.click(ReactSelector('AddTextForm').find('button'))
 
   const todos = ReactSelector('Todo')
   await t.expect(todos.count).eql(2)
@@ -79,12 +79,12 @@ test('Can filter todos', async t => {
 })
 
 test('Shows loading state', async t => {
-  const form = ReactSelector('AddTodo').find('input')
+  const form = ReactSelector('AddTextForm').find('input')
   await t
     .typeText(form, 'Shopping')
     .expect(form.value).eql('Shopping')
 
-  const btn = ReactSelector('AddTodo').find('button')
+  const btn = ReactSelector('AddTextForm').find('button')
   await t.click(btn)
   
   // The assertion

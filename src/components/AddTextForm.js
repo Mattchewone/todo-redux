@@ -1,8 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { addTodo } from '../actions'
 
-let AddTodo = ({ dispatch, loading }) => {
+export default function AddTextForm ({ onAdd, loading, children }) {
   let input
 
   return (
@@ -13,7 +11,7 @@ let AddTodo = ({ dispatch, loading }) => {
           if (!input.value.trim()) {
             return
           }
-          dispatch(addTodo(input.value))
+          onAdd(input.value)
           input.value = ''
         }}
       >
@@ -22,11 +20,8 @@ let AddTodo = ({ dispatch, loading }) => {
             input = node
           }}
         />
-        <button type="submit" disabled={loading}>{loading ? 'Adding...' : 'Add Todo'}</button>
+        <button type="submit" disabled={loading}>{children}</button>
       </form>
     </div>
   )
 }
-AddTodo = connect()(AddTodo)
-
-export default AddTodo
