@@ -3,9 +3,9 @@ import Footer from './Footer'
 import AddTodo from './AddTodo'
 import VisibleTodoList from './VisibleTodoList'
 
-const App = ({ loading }) => (
+const App = () => (
   <div>
-    <AddTodo loading={loading} />
+    <AddTodo/>
     <VisibleTodoList />
     <Footer />
   </div>

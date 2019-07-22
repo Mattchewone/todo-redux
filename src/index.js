@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore, compose } from 'redux'
 import { install } from 'redux-loop'
 import todoApp from './reducers'
-import App from './components/AppWrapper'
+import App from './components/App'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const enhancer = composeEnhancers(

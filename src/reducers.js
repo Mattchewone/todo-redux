@@ -5,7 +5,6 @@ import {
   TOGGLE_TODO,
   TODO_ADDED,
   SET_VISIBILITY_FILTER,
-  TOGGLE_LOADING,
   VisibilityFilters
 } from './actions'
 const { SHOW_ALL } = VisibilityFilters
@@ -28,44 +27,28 @@ function todoSuccess (todo) {
   }
 }
 
-function loading (state = false, action) {
-  switch (action.type) {
-    case TOGGLE_LOADING:
-      return !state
-    default:
-      return state
-  }
-}
-
-function todos (state = List(), action) {
+function todos (state = Map({ list: List(), loading: false }), action) {
   switch (action.type) {
     case ADD_TODO:
       return loop(
-        state,
-        Cmd.list([
-          Cmd.action({
-            type: TOGGLE_LOADING
-          }),
-          Cmd.run(addTodo, {
-            successActionCreator: todoSuccess,
-            args: [action.text]
-          })
-        ])
+        state.set('loading', true),
+        Cmd.run(addTodo, {
+          successActionCreator: todoSuccess,
+          args: [action.text]
+        })
       )
     case TOGGLE_TODO:
-      return state.map((todo, index) => {
+      return state.set('list', state.get('list').map((todo, index) => {
         if (index === action.index) {
           return todo.set('completed', !todo.get('completed'))
         }
         return todo
-      })
+      }))
     case TODO_ADDED:
-      return loop(
-        state.push(Map({...action.todo })),
-        Cmd.action({
-          type: TOGGLE_LOADING
-        })
-      )
+        state = state.set('list', state.get('list').concat([Map({...action.todo })]))
+        state = state.set('loading', false)
+
+        return state
     default:
       return state
   }
@@ -82,8 +65,7 @@ function visibilityFilter (state = SHOW_ALL, action) {
 
 const todoApp = combineReducers({
   visibilityFilter,
-  todos,
-  loading
+  todos
 })
 
 export default todoApp
